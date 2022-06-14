@@ -5,12 +5,13 @@ FF=gfortran## for Fortran
 ###  Directories ###
 SRCDIR=${PWD}/src
 INCDIR=${PWD}/src
+INCHEP=-I/ada1/lpthe/fuks/hubble/benj_local/include
 LIBDIR=${PWD}/lib
 BLDDIR=${PWD}/bld
 
 ### Flags ###
-CFLAG=-O3 -Wall --std=c++14 -I${INCDIR}
-FFLAG=-O3 -I${INCDIR}
+CFLAG=-O3 -Wall --std=c++14 -I${INCDIR} ${INCHEP}
+FFLAG=-O3 -I${INCDIR} -I${INCLT}
 
 ### Paths ###
 VPATH=${SRCDIR}
@@ -26,15 +27,15 @@ FOBJS=$(subst .f,.o,$(subst ${SRCDIR},${BLDDIR},${FFILES}))
 ### Libraries ###
 LIB=${LIBDIR}/libresum.a
 GSLIB= -lgsl -lgslcblas
-STLIB= -L/usr/local/gfortran/lib -lm -lgfortran 
-LHAPDF= -L/usr/local/lib -lLHAPDF
+STLIB= -lm -lgfortran 
+HEPTLS= -L/ada1/lpthe/fuks/hubble/benj_local/lib -L/ada1/lpthe/fuks/hubble/benj_local/lib64 -lLHAPDF -looptools
 
 ### Commands ###
 all: RUN
 lib: ${LIB}
 
 RUN: main.cpp ${LIB}
-	${CC} ${CFLAG} -o $@ main.cpp ${LIB} ${GSLIB} ${STLIB} ${LHAPDF}
+	${CC} ${CFLAG} -o $@ main.cpp ${LIB} ${GSLIB} ${HEPTLS} ${STLIB} 
 
 ${LIB}:	${COBJS} ${FOBJS}
 	ar -ruc $@ ${BLDDIR}/*.o

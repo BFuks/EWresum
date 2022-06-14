@@ -1,2 +1,4 @@
+*.swp
+src/*.swp
 bld/*
 lib/*

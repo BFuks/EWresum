@@ -9,6 +9,7 @@
 //  Includes                                                                 //
 // ************************************************************************* //
 // -------- Standard headers ------------------------------------- //
+#include <cmath>            // Mathematical functions           //
 #include <sstream>    // String streams                            //
 #include <string>     // Strings                                   //
 #include <vector>     // Vectors                                   //

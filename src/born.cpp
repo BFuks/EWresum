@@ -30,8 +30,6 @@ double Born(double *x, size_t dim, void *prm)
    // Kinematics 
    double xa, xb, s, t, jac;
    Kinematics2to2(xa,xb,t,jac,s,x,p->Process());
-
-   // Loop over the initial qqbar pairs
    double u  = -s-t;
    std::complex<double> sz = s - p->cmz2();
 

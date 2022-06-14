@@ -17,7 +17,7 @@ void DecodeArgs(int, char**, bool&); // Arguments from the shell   //
 void DisplayXsec(const double&, const double&, const std::string&);//
 void Integrate(double (*)(double *,size_t,void *),double&,double&,size_t,Parameters*);//
 double Born(double*,size_t,void*);                                 //
-double NLO(double*,size_t,void*);                                  //
+double Virt(double*,size_t,void*);                                 //
 // --------------------------------------------------------------- //
 
 
@@ -38,17 +38,28 @@ int main(int argc, char* argv[])
   Parameters *Params = new Parameters(debug, argv[1]);
   if(!Params->Check()) error("Parameters inconsistent; fix the input file");
 
-  // Main integrator
+  // LO integrator
   info("Born cross section calculation");
   Params->LHAPDF_init(Params->PDFIdBorn());
-  double res0=0., err0=0.;
+  double res=0., err=0.;
   size_t ndims = 2;
   if(Params->M()==-1) { ndims+=1; }
-  Integrate(&Born,res0,err0,ndims,Params);
+  Integrate(&Born,res,err,ndims,Params);
+  DisplayXsec(res, err, "  --> Final");
 
-  // Display of the results
-  info("Results of the calculation");
-  DisplayXsec(res0, err0, "  --> Final");
+  // NLO integrator
+  info("NLO cross section calculation");
+  Params->LHAPDF_init(Params->PDFId());
+  double r_nlo=0., e_nlo=0.;
+
+  info("  --> LO component");
+  Integrate(&Born,res,err,ndims,Params);
+  DisplayXsec(res, err, "  --> LO component");
+  r_nlo=res; e_nlo=err;
+
+  info("  --> \"Virtual + dipole\" component");
+  Integrate(&Virt,res,err,ndims,Params);
+  DisplayXsec(res, err, "  --> \"Virtual + dipole\" component");
 
   // End of the program
   return 0;
