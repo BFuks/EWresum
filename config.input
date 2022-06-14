@@ -1,0 +1,28 @@
+#################################
+#    VEGAS  parameterisation    #
+#################################
+vegas_verbosity      -1   # Level of information printed by VEGAS. (-1, 0, 1 or 2)
+vegas_max_iter       10   # Maximum number of VEGAS iterations
+vegas_precision     0.003  # Relative precision of the integration
+
+#################################
+#    Collision configuration    #
+#################################
+lhapdf_set_born    13200  # LHAPDF index
+lhapdf_set         14400  # LHAPDF index
+lhapdf_verbosity       0  # Level of information printed by LLHAPDF (0, 1 or 2)
+
+beam1_energy        6500  # Collding beam 1
+beam2_energy        6500  # Collding beam 2
+final_pdgid_1         11  # PDG code of the first final state particle
+final_pdgid_2        -11  # PDG code of the second final state particle
+M                     -1  # Value in GeV (-1 for total rate)
+Mmin                  50  # Minimum invariant mass value
+
+
+# aewm1              1.27934000e+02   # 1/alpha
+aewm1              132.50698   # 1/alpha
+gf              0.0000116639   # Fermi constant
+mz                    91.188   # Z boson mass
+gz                    2.4952   # Z boson width
+gw                    2.1410   # W boson width

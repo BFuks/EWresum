@@ -1,0 +1,32 @@
+ ** INFO: Initialising the parameters of the calculation
+ ** DEBUG: Parameter vegas_verbosity = -1
+ ** DEBUG: Parameter vegas_max_iter = 10
+ ** DEBUG: Parameter vegas_precision = 0.003
+ ** DEBUG: Parameter lhapdf_set_born = 13200
+ ** DEBUG: Parameter lhapdf_set = 14400
+ ** DEBUG: Parameter lhapdf_verbosity = 0
+ ** DEBUG: Parameter beam1_energy = 6500
+ ** DEBUG: Parameter beam2_energy = 6500
+ ** DEBUG: Parameter final_pdgid_1 = 11
+ ** DEBUG: Parameter final_pdgid_2 = -11
+ ** DEBUG: Parameter M = -1
+ ** DEBUG: Parameter Mmin = 50
+ ** DEBUG: Parameter aewm1 = 132.50698
+ ** DEBUG: Parameter gf = 0.0000116639
+ ** DEBUG: Parameter mz = 91.188
+ ** DEBUG: Parameter gz = 2.4952
+ ** DEBUG: Parameter gw = 2.1410
+ ** INFO:   --> done!
+ ** INFO: Checking the consistency of the input file
+ ** DEBUG: The PDF set CT14lo has been found
+ ** DEBUG: The PDF set CT18NLO has been found
+ ** INFO: Checking the consistency of the process parameters
+ ** INFO:   --> done!
+ ** INFO: Born cross section calculation
+ ** INFO:   --> Initialisation of the integrator
+ ** INFO:   --> Warm-up results: 905.599 +/- 166.738 pb  (@ 18.41%)
+ ** INFO:   --> Refine-1 results: 1380.26 +/- 22.4576 pb  (@ 1.63%)
+ ** INFO:   --> Refine-2 results: 1439.09 +/- 5.5902 pb  (@ 0.39%)
+ ** INFO:   --> Refine-3 results: 1436.15 +/- 1.72035 pb  (@ 0.12%)
+ ** INFO: Results of the calculation
+ ** INFO:   --> Final results: 1436.15 +/- 1.72035 pb  (@ 0.12%)
