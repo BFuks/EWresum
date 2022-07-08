@@ -1,7 +1,7 @@
 // ************************************************************************* //
 // Born cross section                                                        //
 //                                                                           //
-// By Benjamin Fuks - 14.06.2022                                             //
+// By Benjamin Fuks - 08.07.2022                                             //
 // ************************************************************************* //
 
 
@@ -46,8 +46,8 @@ double Born(double *x, size_t dim, void *prm)
       double RR =  norm(p->All(p->flav1(),p->flav2()) * p->Aqq(i,i)  / s +
                       p->ZRll(p->flav1(),p->flav2())* p->ZRqq(i,i) / sz);
       sig+=(
-          p->pdf()->xfxQ( i+1,xa,p->mz())*p->pdf()->xfxQ(-i-1,xb,p->mz())+
-          p->pdf()->xfxQ(-i-1,xa,p->mz())*p->pdf()->xfxQ( i+1,xb,p->mz())
+          p->pdf()->xfxQ( i+1,xa,p->muF())*p->pdf()->xfxQ(-i-1,xb,p->muF())+
+          p->pdf()->xfxQ(-i-1,xa,p->muF())*p->pdf()->xfxQ( i+1,xb,p->muF())
         )* (pow(t,2.) * (LR + RL) + pow(u,2.) * (LL + RR));
    }
 

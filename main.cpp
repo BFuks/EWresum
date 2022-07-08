@@ -9,16 +9,17 @@
 // ************************************************************************* //
 //  Includes                                                                 //
 // ************************************************************************* //
-// -------- Classes ---------------------------------------------- //
-#include "messages.h"     // Message services                      //
-#include "parameters.h"   // All the parameters of the calculation //
-// -------- Functions -------------------------------------------- //
-void DecodeArgs(int, char**, bool&); // Arguments from the shell   //
-void DisplayXsec(const double&, const double&, const std::string&);//
+// -------- Classes -------------------------------------------------------- //
+#include "messages.h"     // Message services                                //
+#include "parameters.h"   // All the parameters of the calculation           //
+#include "clooptools.h"   // Looptools                                       //
+// -------- Functions --------------------------------------------           //
+void DecodeArgs(int, char**, bool&); // Arguments from the shell             //
+void DisplayXsec(const double&, const double&, const std::string&);          //
 void Integrate(double (*)(double *,size_t,void *),double&,double&,size_t,Parameters*);//
-double Born(double*,size_t,void*);                                 //
-double Virt(double*,size_t,void*);                                 //
-// --------------------------------------------------------------- //
+double Born(double*,size_t,void*);                                           //
+double Virt(double*,size_t,void*);                                           //
+// ------------------------------------------------------------------------- //
 
 
 
@@ -47,6 +48,9 @@ int main(int argc, char* argv[])
   Integrate(&Born,res,err,ndims,Params);
   DisplayXsec(res, err, "  --> Final");
 
+  // inits looptools
+  ltini();
+
   // NLO integrator
   info("NLO cross section calculation");
   Params->LHAPDF_init(Params->PDFId());
@@ -61,6 +65,7 @@ int main(int argc, char* argv[])
   Integrate(&Virt,res,err,ndims,Params);
   DisplayXsec(res, err, "  --> \"Virtual + dipole\" component");
 
-  // End of the program
+  // End of the program (and clearing looptools)
+  ltexi();
   return 0;
 }

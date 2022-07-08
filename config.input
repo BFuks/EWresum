@@ -3,7 +3,7 @@
 #################################
 vegas_verbosity      -1   # Level of information printed by VEGAS. (-1, 0, 1 or 2)
 vegas_max_iter       10   # Maximum number of VEGAS iterations
-vegas_precision     0.003  # Relative precision of the integration
+vegas_precision     0.020  # Relative precision of the integration
 
 #################################
 #    Collision configuration    #
@@ -18,10 +18,11 @@ final_pdgid_1         11  # PDG code of the first final state particle
 final_pdgid_2        -11  # PDG code of the second final state particle
 M                     -1  # Value in GeV (-1 for total rate)
 Mmin                  50  # Minimum invariant mass value
+muR               91.188  # Renormalisation scale
+muF               91.188  # Factorisation scale
 
-
-# aewm1              1.27934000e+02   # 1/alpha
-aewm1              132.50698   # 1/alpha
+aewm1              1.27934000e+02   # 1/alpha
+#aewm1              132.50698   # 1/alpha
 gf              0.0000116639   # Fermi constant
 mz                    91.188   # Z boson mass
 gz                    2.4952   # Z boson width

@@ -1,4 +1,8 @@
+init.sh
+*.swo
 *.swp
+*.log
 src/*.swp
 bld/*
 lib/*
+RUN

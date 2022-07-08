@@ -1,7 +1,7 @@
 // ************************************************************************* //
 // Management of the process configuration                                   //
 //                                                                           //
-// By Benjamin Fuks - 14.06.2022                                             //
+// By Benjamin Fuks - 08.07.2022                                             //
 // ************************************************************************* //
 
 
@@ -42,6 +42,11 @@ class ProcessConfig
     double m1sq()   { return m1sq_;   }
     double m2sq()   { return m2sq_;   }
 
+    double muR()    { return muR_;    }
+    double muR2()   { return muR2_;   }
+    double muF()    { return muF_;    }
+    double muF2()   { return muF2_;   }
+
     double mz()     { return mz_;     }
     double mz2()    { return mzsq_;   }
     std::complex<double> cmz2() { return cmzsq_;  }
@@ -67,6 +72,8 @@ class ProcessConfig
     void SetGW(double val)       { gamw_   = val; }
     void SetM(double val)        { M_      = val; }
     void SetMmin(double val)     { Mmin_   = val; }
+    void SetmuR(double val)      { muR_    = val; muR2_ = pow(val, 2.); }
+    void SetmuF(double val)      { muF_    = val; muF2_ = pow(val, 2.); }
 
   private:
     // class members
@@ -79,6 +86,8 @@ class ProcessConfig
     double sh_;               // Hadronic centre of mass energy
     double M_, Mmin_;         // Invariant mass
     double tauh_;             // Reduced invariant mass
+    double muR_, muR2_;       // Renormalisation scale
+    double muF_, muF2_;       // Factorisation scale
 
     // masses
     double mz_, mzsq_, mw_, mwsq_;       // Weak boson masses

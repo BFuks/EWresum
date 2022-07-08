@@ -1,7 +1,7 @@
 // ************************************************************************* //
 // Management of the calculation parameters                                  //
 //                                                                           //
-// By Benjamin Fuks - 14.06.2022                                             //
+// By Benjamin Fuks - 08.07.2022                                             //
 // ************************************************************************* //
 
 // ************************************************************************* //
@@ -71,6 +71,8 @@ Parameters::Parameters(bool &dbg,  const std::string &s1)
     else if(decoded_line[0]=="final_pdgid_2"){ int   ival; valuestream >> ival; SetPDG2(ival); }
     else if(decoded_line[0]=="M")      { double dval; valuestream >> dval; SetM(dval);    }
     else if(decoded_line[0]=="Mmin")   { double dval; valuestream >> dval; SetMmin(dval); }
+    else if(decoded_line[0]=="muR")    { double dval; valuestream >> dval; SetmuR(dval);  }
+    else if(decoded_line[0]=="muF")    { double dval; valuestream >> dval; SetmuF(dval);  }
 
     // parameters
     else if(decoded_line[0]=="aewm1"){ double dval; valuestream >> dval; SetaEWM1(dval); }

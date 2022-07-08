@@ -1,7 +1,7 @@
 // ************************************************************************* //
 // Management of the calculation parameters                                  //
 //                                                                           //
-// By Benjamin Fuks - 14.06.2022                                             //
+// By Benjamin Fuks - 08.07.2022                                             //
 // ************************************************************************* //
 
 
@@ -49,8 +49,10 @@ class Parameters
     double mz2()  { return Process()->mz2(); }
     std::complex<double> cmz2() { return Process()->cmz2(); }
 
-    double ee()   { return Process()->ee();  }
-    double ee2()  { return Process()->ee2(); }
+    double muF()    { return Process()->muF();                 }
+    double alphas() { return pdf_->alphasQ2(process_->muR2()); }
+    double ee()     { return Process()->ee();                  }
+    double ee2()    { return Process()->ee2();                 }
     double  Aqq(unsigned int i, unsigned int j) { return Process()->Aqq(i,j);  }
     double  All(unsigned int i, unsigned int j) { return Process()->All(i,j);  }
     double ZLqq(unsigned int i, unsigned int j) { return Process()->ZLqq(i,j); }
@@ -65,8 +67,8 @@ class Parameters
     // class members
     bool debug_ ;          // debug flag
 
-    VegasConfig* vegas_;     // VEGAS configuration
-    ProcessConfig* process_;   // VEGAS configuration
+    VegasConfig* vegas_;       // VEGAS configuration
+    ProcessConfig* process_;   // Process configuration
 
     unsigned int pdfID_, pdfIDBorn_; // LHAPDF label
     LHAPDF::PDF* pdf_;               // LHAPDF handler
@@ -90,6 +92,9 @@ class Parameters
 
     void SetM(double val)               { Process()->SetM(val);      }
     void SetMmin(double val)            { Process()->SetMmin(val);   }
+    void SetmuR(double val)             { Process()->SetmuR(val);    }
+    void SetmuF(double val)             { Process()->SetmuF(val);    }
+
     void SetaEWM1(double val)           { Process()->SetaEWM1(val);  }
     void SetGF(double val)              { Process()->SetGF(val);     }
     void SetMZ(double val)              { Process()->SetMZ(val);     }
