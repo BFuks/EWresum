@@ -1,7 +1,7 @@
 // ************************************************************************* //
 // Management of the calculation parameters                                  //
 //                                                                           //
-// By Benjamin Fuks - 08.07.2022                                             //
+// By Benjamin Fuks - 12.07.2022                                             //
 // ************************************************************************* //
 
 
@@ -50,6 +50,7 @@ class Parameters
     std::complex<double> cmz2() { return Process()->cmz2(); }
 
     double muF()    { return Process()->muF();                 }
+    double muR2()   { return Process()->muR2();                }
     double alphas() { return pdf_->alphasQ2(process_->muR2()); }
     double ee()     { return Process()->ee();                  }
     double ee2()    { return Process()->ee2();                 }

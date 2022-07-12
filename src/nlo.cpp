@@ -1,7 +1,7 @@
 // ************************************************************************* //
 // NLO DY cross section                                                      //
 //                                                                           //
-// By Benjamin Fuks - 08.07.2022                                             //
+// By Benjamin Fuks - 12.07.2022                                             //
 // ************************************************************************* //
 
 
@@ -14,8 +14,8 @@
 #include "clooptools.h"     // Looptools                                     //
 // -------- Functions ------------------------------------------------------ //
 void Kinematics2to2(double &, double&, double&, double&, double&, double*x, ProcessConfig*); //
-double virt_ll(const double, const double, unsigned int, unsigned int, Parameters*);         //
-double dipole_ll(const double, const double, Parameters*);                   //
+double virt_ll(const double, const double, const unsigned int, const unsigned int, Parameters*);         //
+double dipole_ll(const double, const double, const unsigned int, const unsigned int, Parameters*);                   //
 // ------------------------------------------------------------------------- //
 
 
@@ -32,6 +32,7 @@ double Virt(double *x, size_t dim, void *prm)
    // Kinematics 
    double xa, xb, s, t, jac;
    Kinematics2to2(xa,xb,t,jac,s,x,p->Process());
+   //s = 2.75268e+07; t= -1.97472e+07;
 
    // Loop over the initial state quarks
    double sig=0.;
@@ -40,9 +41,8 @@ double Virt(double *x, size_t dim, void *prm)
       sig+=(
           p->pdf()->xfxQ( i+1,xa,p->muF())*p->pdf()->xfxQ(-i-1,xb,p->muF())+
           p->pdf()->xfxQ(-i-1,xa,p->muF())*p->pdf()->xfxQ( i+1,xb,p->muF())
-        )* (virt_ll(s,t,i,i,p) + dipole_ll(s,t,p));
+        )* (virt_ll(s,t,i,i,p) + dipole_ll(s,t,i,i,p));
    }
-
    // disgma/dM
    if(p->M()!=-1) sig*=(2./p->M());
 

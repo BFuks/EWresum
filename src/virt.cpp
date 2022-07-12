@@ -1,7 +1,7 @@
 // ************************************************************************* //
 // Virtual contributions to the cross section                                //
 //                                                                           //
-// By Benjamin Fuks - 08.07.2022                                             //
+// By Benjamin Fuks - 12.07.2022                                             //
 // ************************************************************************* //
 
 
@@ -20,15 +20,13 @@
 // ************************************************************************* //
 //  Virtual corrections.                                                     //
 // ************************************************************************* //
-double virt_ll(const double s, const double t, unsigned int flav1, unsigned int flav2, Parameters *p)
+double virt_ll(const double s, const double t, const unsigned int flav1, const unsigned int flav2, Parameters *p)
 {
    // PV integrals
    std::complex<double> c00[3], c1[3], c2[3], c12[3], c22[3];
-
-   setmudim(p->mz2());
-   setlambda( 0); c00[0] = C0i(cc00, 0., 0., s, 0., 0., 0.); c1[0]  = C0i(cc1,  0., 0., s, 0., 0., 0.); c2[0]  = C0i(cc2,  0., 0., s, 0., 0., 0.); c12[0] = C0i(cc12, 0., 0., s, 0., 0., 0.); c22[0] = C0i(cc22, 0., 0., s, 0., 0., 0.);
-   setlambda(-1); c00[1] = C0i(cc00, 0., 0., s, 0., 0., 0.); c1[1]  = C0i(cc1,  0., 0., s, 0., 0., 0.); c2[1]  = C0i(cc2,  0., 0., s, 0., 0., 0.); c12[1] = C0i(cc12, 0., 0., s, 0., 0., 0.); c22[1] = C0i(cc22, 0., 0., s, 0., 0., 0.);
-   setlambda(-2); c00[2] = C0i(cc00, 0., 0., s, 0., 0., 0.); c1[2]  = C0i(cc1,  0., 0., s, 0., 0., 0.); c2[2]  = C0i(cc2,  0., 0., s, 0., 0., 0.); c12[2] = C0i(cc12, 0., 0., s, 0., 0., 0.); c22[2] = C0i(cc22, 0., 0., s, 0., 0., 0.);
+   setmudim(p->muR2());
+   for (int eps=0; eps<3; eps++)
+     { setlambda(-eps); c00[eps]=C0i(cc00,0,0,s,0,0,0); c1[eps]=C0i(cc1,0,0,s,0,0,0); c2[eps]=C0i(cc2,0,0,s,0,0,0); c12[eps]=C0i(cc12,0,0,s,0,0,0); c22[eps]=C0i(cc22,0,0,s,0,0,0); }
 
    // mandelstam and propagators
    double u = -s-t, t2 = pow(t,2.), u2=pow(u,2.), s2=pow(s,2.), ut=u*t;
@@ -58,9 +56,29 @@ double virt_ll(const double s, const double t, unsigned int flav1, unsigned int 
 // ************************************************************************* //
 //  Integrated dipole contributions.                                         //
 // ************************************************************************* //
-double dipole_ll(const double s, const double t, Parameters *p)
+double dipole_ll(const double s, const double t, const unsigned int flav1, const unsigned int flav2, Parameters *p)
 {
+   // Log and kinematics
+   double u = -s-t, t2 = pow(t,2.), u2=pow(u,2.);
+   std::complex<double> sz = s - p->cmz2();
+   double lnmusq = std::log(p->muR2()/s);
+
+   // couplings
+   double LR =  norm(p->All(p->flav1(),p->flav2()) * p->Aqq(flav1,flav2)  / s + p->ZRll(p->flav1(),p->flav2())* p->ZLqq(flav1,flav2) / sz);
+   double RL =  norm(p->All(p->flav1(),p->flav2()) * p->Aqq(flav1,flav2)  / s + p->ZLll(p->flav1(),p->flav2())* p->ZRqq(flav1,flav2) / sz);
+   double LL =  norm(p->All(p->flav1(),p->flav2()) * p->Aqq(flav1,flav2)  / s + p->ZLll(p->flav1(),p->flav2())* p->ZLqq(flav1,flav2) / sz);
+   double RR =  norm(p->All(p->flav1(),p->flav2()) * p->Aqq(flav1,flav2)  / s + p->ZRll(p->flav1(),p->flav2())* p->ZRqq(flav1,flav2) / sz);
+
+   // Matrix element
+   double dip =
+     // eps^0 pieces
+     (10. - pow(M_PI,2) + (3.+lnmusq)*lnmusq) * ((LR+RL)*t2 + (LL+RR)*u2) +
+     // eps^-1 pieces
+     (3. + 2.*lnmusq) * s * ((LR+RL)*(2.*t-u) + (LL+RR)*(2.*u-t)) +
+     // eps^-2 pieces
+     2. * (t2-u2) * (LR+RL-LL-RR);
+
    // result (including colour, flux and phase space)
-   return 0.;
+   return 2.*p->alphas()/(3.*M_PI)*dip;
 }
 

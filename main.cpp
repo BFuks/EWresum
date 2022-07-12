@@ -64,6 +64,7 @@ int main(int argc, char* argv[])
   info("  --> \"Virtual + dipole\" component");
   Integrate(&Virt,res,err,ndims,Params);
   DisplayXsec(res, err, "  --> \"Virtual + dipole\" component");
+  r_nlo+=res; e_nlo+=err;
 
   // End of the program (and clearing looptools)
   ltexi();
