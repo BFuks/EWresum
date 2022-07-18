@@ -1,7 +1,7 @@
 // ************************************************************************* //
 // Virtual contributions to the cross section                                //
 //                                                                           //
-// By Benjamin Fuks - 12.07.2022                                             //
+// By Benjamin Fuks - 18.07.2022                                             //
 // ************************************************************************* //
 
 
@@ -10,7 +10,6 @@
 //  Includes                                                                 //
 // ************************************************************************* //
 #include <complex>          // Complex numbers library                       //
-#include <iostream>
 // -------- Classes -------------------------------------------------------- //
 #include "parameters.h"     // All the parameters of the calculation         //
 #include "clooptools.h"     // Looptools                                     //
@@ -20,7 +19,7 @@
 // ************************************************************************* //
 //  Virtual corrections.                                                     //
 // ************************************************************************* //
-double virt_ll(const double s, const double t, const unsigned int flav1, const unsigned int flav2, Parameters *p)
+double Virt_ll(const double s, const double t, const unsigned int flav1, const unsigned int flav2, Parameters *p)
 {
    // PV integrals
    std::complex<double> c00[3], c1[3], c2[3], c12[3], c22[3];
@@ -56,7 +55,7 @@ double virt_ll(const double s, const double t, const unsigned int flav1, const u
 // ************************************************************************* //
 //  Integrated dipole contributions.                                         //
 // ************************************************************************* //
-double dipole_ll(const double s, const double t, const unsigned int flav1, const unsigned int flav2, Parameters *p)
+double Dipole_ll(const double s, const double t, const unsigned int flav1, const unsigned int flav2, Parameters *p)
 {
    // Log and kinematics
    double u = -s-t, t2 = pow(t,2.), u2=pow(u,2.);

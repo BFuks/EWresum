@@ -1,7 +1,7 @@
 // ************************************************************************* //
 // Kinematic computations                                                    //
 //                                                                           //
-// By Benjamin Fuks - 14.06.2022                                             //
+// By Benjamin Fuks - 15.07.2022                                             //
 // ************************************************************************* //
 
 // ************************************************************************* //
@@ -47,4 +47,54 @@ void Kinematics2to2(double &xa, double &xb, double &t, double &jac, double &s, d
    if(p->M()==-1) jac =  sqkal*log(p->tauh())*log(p->tauh()/xa);
    else           jac = -sqkal*log(p->tauh());
 }
+
+
+void Kinematics2to2PK(double &xa, double &xb, double &z, double *t, double *jac, double *s, double *x, ProcessConfig *p)
+{
+   // Computes xa + integration from 0->1 becomes from tau to 1
+   xa=pow(p->tauh(),1.-x[0]);
+
+   // Computes xb and z
+   if(p->M()==-1)
+   {
+     xb=pow(p->tauh()/xa,1.-x[3]);
+     z = pow(p->tauh()/(xa*xb),1.-x[1]);
+   }
+   else
+   {
+     z = pow(p->tauh()/xa,1.-x[1]);
+     xb=p->tauh()/(z*xa);
+   }
+
+   // Computes { shat, shatilde }
+   s[0] = xa*xb*p->sh();
+   s[1] = xa*xb*z*p->sh();
+
+   // Computes t/ttilde + integration from 0->1 becomes from tmin to tmax 
+   double sqkal[2] = { sqrt(Kallen(s[0],p->m1sq(),p->m2sq())), sqrt(Kallen(s[1],p->m1sq(),p->m2sq())) };
+   for (unsigned int i=0; i<2;i++)
+   {
+      double tmin = (-s[i] + p->m2sq() + p->m1sq() - sqkal[i])/2.;
+      double tmax = tmin + sqkal[i];
+      t[i]=(tmax-tmin)*x[2]+tmin;
+   }
+
+   // Jacobian divided by (xa xb) cf. PDF (includes xb*z or xb factor for dsig/dM)
+   // 0 = colilinear phase space
+   // 1 = with the + distribution
+   // 2 =  for the delta(1-z)
+   if(p->M()==-1)
+   {
+     jac[0] = -sqkal[1]*z*log(p->tauh())*log(p->tauh()/xa)*log(p->tauh()/(xa*xb));
+     jac[1] = -sqkal[0]*z*log(p->tauh())*log(p->tauh()/xa)*log(p->tauh()/(xa*xb));
+     jac[2] =  sqkal[0]*log(p->tauh())*log(p->tauh()/xa);
+   }
+   else
+   {
+     jac[0] =  sqkal[1]*z*log(p->tauh())*log(p->tauh()/(xa*xb));
+     jac[1] =  sqkal[1]*z*log(p->tauh())*log(p->tauh()/(xa*xb));
+     jac[2] = -sqkal[1]*z*log(p->tauh());
+   }
+}
+
 

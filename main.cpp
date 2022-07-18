@@ -1,7 +1,7 @@
 // ************************************************************************* //
 // Main code for resummed cross section calculations                         //
 //                                                                           //
-// By Benjamin Fuks - 12.01.2022                                             //
+// By Benjamin Fuks - 18.07.2022                                             //
 // ************************************************************************* //
 
 
@@ -19,6 +19,8 @@ void DisplayXsec(const double&, const double&, const std::string&);          //
 void Integrate(double (*)(double *,size_t,void *),double&,double&,size_t,Parameters*);//
 double Born(double*,size_t,void*);                                           //
 double Virt(double*,size_t,void*);                                           //
+double Real(double*,size_t,void*);                                           //
+double PK(double*,size_t,void*);                                             //
 // ------------------------------------------------------------------------- //
 
 
@@ -48,8 +50,6 @@ int main(int argc, char* argv[])
   Integrate(&Born,res,err,ndims,Params);
   DisplayXsec(res, err, "  --> Final");
 
-  // inits looptools
-  ltini();
 
   // NLO integrator
   info("NLO cross section calculation");
@@ -62,11 +62,22 @@ int main(int argc, char* argv[])
   r_nlo=res; e_nlo=err;
 
   info("  --> \"Virtual + dipole\" component");
+  ltini(); // init looptools
   Integrate(&Virt,res,err,ndims,Params);
+  ltexi() ;// exiting looptools
   DisplayXsec(res, err, "  --> \"Virtual + dipole\" component");
   r_nlo+=res; e_nlo+=err;
 
-  // End of the program (and clearing looptools)
-  ltexi();
+  info("  --> Colinear reminder (P+K)");
+  Integrate(&PK,res,err,ndims+1,Params);
+  DisplayXsec(res, err, "  --> \"P+K\" component");
+  r_nlo+=res; e_nlo+=err;
+
+  info("  --> Colinear reminder (P+K)");
+  Integrate(&Real,res,err,ndims+3,Params);
+  DisplayXsec(res, err, "  --> \"Real - dipole\" component");
+  r_nlo+=res; e_nlo+=err;
+
+  // End of the program
   return 0;
 }
