@@ -1,7 +1,7 @@
 // ************************************************************************* //
 // Management of the process configuration                                   //
 //                                                                           //
-// By Benjamin Fuks - 14.06.2022                                             //
+// By Benjamin Fuks - 31.08.2022                                             //
 // ************************************************************************* //
 
 // ************************************************************************* //
@@ -56,8 +56,10 @@ bool ProcessConfig::Check()
     default: m2_=.0; m2sq_=0.;
   }
 
-  // Hadronic center of mass energy
+  // Hadronic centre of mass energy and invaruat mass squared
   sh_   = pow(EBeam1()+EBeam2(),2.);
+  M2min_= pow(Mmin_,2.);
+  M2_   = pow(M_,2.);
   if(M_==-1) tauh_ = pow(std::max(m1_+m2_, Mmin_),2.)/sh_;
   else       tauh_ = pow(M_,2.)/sh_;
 

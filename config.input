@@ -3,7 +3,7 @@
 #################################
 vegas_verbosity      -1   # Level of information printed by VEGAS. (-1, 0, 1 or 2)
 vegas_max_iter       10   # Maximum number of VEGAS iterations
-vegas_precision     0.020  # Relative precision of the integration
+vegas_precision     0.005  # Relative precision of the integration
 
 #################################
 #    Collision configuration    #

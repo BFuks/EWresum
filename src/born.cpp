@@ -38,14 +38,10 @@ double Born(double *x, size_t dim, void *prm)
    for(unsigned int i=0; i<4; i++)
    {
       // Coupling combinations
-      double LR =  norm(p->All(p->flav1(),p->flav2()) * p->Aqq(i,i)  / s +
-                      p->ZRll(p->flav1(),p->flav2())* p->ZLqq(i,i) / sz);
-      double RL =  norm(p->All(p->flav1(),p->flav2()) * p->Aqq(i,i)  / s +
-                      p->ZLll(p->flav1(),p->flav2())* p->ZRqq(i,i) / sz);
-      double LL =  norm(p->All(p->flav1(),p->flav2()) * p->Aqq(i,i)  / s +
-                      p->ZLll(p->flav1(),p->flav2())* p->ZLqq(i,i) / sz);
-      double RR =  norm(p->All(p->flav1(),p->flav2()) * p->Aqq(i,i)  / s +
-                      p->ZRll(p->flav1(),p->flav2())* p->ZRqq(i,i) / sz);
+      double LR =  norm(p->All(p->flav1(),p->flav2()) * p->Aqq(i,i)  / s + p->ZRll(p->flav1(),p->flav2())* p->ZLqq(i,i) / sz);
+      double RL =  norm(p->All(p->flav1(),p->flav2()) * p->Aqq(i,i)  / s + p->ZLll(p->flav1(),p->flav2())* p->ZRqq(i,i) / sz);
+      double LL =  norm(p->All(p->flav1(),p->flav2()) * p->Aqq(i,i)  / s + p->ZLll(p->flav1(),p->flav2())* p->ZLqq(i,i) / sz);
+      double RR =  norm(p->All(p->flav1(),p->flav2()) * p->Aqq(i,i)  / s + p->ZRll(p->flav1(),p->flav2())* p->ZRqq(i,i) / sz);
 
       // Rate
       sig+=(

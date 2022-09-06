@@ -1,7 +1,7 @@
 // ************************************************************************* //
 // Management of the process configuration                                   //
 //                                                                           //
-// By Benjamin Fuks - 08.07.2022                                             //
+// By Benjamin Fuks - 21.07.2022                                             //
 // ************************************************************************* //
 
 
@@ -39,6 +39,8 @@ class ProcessConfig
     double tauh()   { return tauh_;   }
     double sh()     { return sh_;     }
     double M()      { return M_;      }
+    double M2()     { return M2_;     }
+    double M2min()  { return M2min_;  }
     double m1sq()   { return m1sq_;   }
     double m2sq()   { return m2sq_;   }
 
@@ -83,11 +85,11 @@ class ProcessConfig
     unsigned int flavour2_;   // Final-state flavour flag 2
 
     // Internal parameters
-    double sh_;               // Hadronic centre of mass energy
-    double M_, Mmin_;         // Invariant mass
-    double tauh_;             // Reduced invariant mass
-    double muR_, muR2_;       // Renormalisation scale
-    double muF_, muF2_;       // Factorisation scale
+    double sh_;                    // Hadronic centre of mass energy
+    double M_, M2_, Mmin_, M2min_; // Invariant mass
+    double tauh_;                  // Reduced invariant mass
+    double muR_, muR2_;            // Renormalisation scale
+    double muF_, muF2_;            // Factorisation scale
 
     // masses
     double mz_, mzsq_, mw_, mwsq_;       // Weak boson masses

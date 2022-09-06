@@ -44,7 +44,7 @@ double Virt_ll(const double s, const double t, const unsigned int flav1, const u
      // eps^1/eps pieces
      (LL+RR) * ( 2.*c00[1]*(t2-ut-4.*u2) + s*((c12[1]+c2[1]+c22[1])*(t2-ut-3.*u2)+c1[1]*(t2-ut-2.*u2)) ) +
      (LR+RL) * ( 2.*c00[1]*(u2-ut-4.*t2) + s*((c12[1]+c2[1]+c22[1])*(u2-ut-3.*t2)+c1[1]*(u2-ut-2.*t2)) ) +
-     // eps^1/eps pieces
+     // eps^2/eps^2 pieces
      (LL+RR) * ( c00[2]*(12.*u2+4.*ut-6.*t2) + s2*((c12[2]+c2[2]+c22[2])*(2.*t-3.*u)+c1[2]*(t-u)) ) +
      (LR+RL) * ( c00[2]*(12.*t2+4.*ut-6.*u2) + s2*((c12[2]+c2[2]+c22[2])*(2.*u-3.*t)+c1[2]*(u-t)) );
 

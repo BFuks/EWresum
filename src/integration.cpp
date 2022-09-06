@@ -1,7 +1,7 @@
 // ************************************************************************* //
 // Integration main routines                                                  //
 //                                                                           //
-// By Benjamin Fuks - 14.06.2022                                             //
+// By Benjamin Fuks - 31.08.2022                                             //
 // ************************************************************************* //
 
 
@@ -16,7 +16,7 @@
 #include "parameters.h"   // All the parameters of the calculation //
 #include <gsl/gsl_monte_vegas.h>  // GSL                           //
 // -------- Functions -------------------------------------------- //
-void DisplayXsec(const double&, const double&, const std::string&);//
+void DisplayXsec(const double&, const double&, const std::string&,double);//
 // --------------------------------------------------------------- //
 
 
@@ -35,7 +35,7 @@ void Integrate(double (*fctn)(double *x, size_t dim, void *jj), double& res, dou
   gsl_monte_function I; I.f = fctn; I.dim=ndims; I.params=Params;
 
   // Number of integrations and calls
-  size_t calls=10000;
+  size_t calls=20000;
 
   // Integration bounds
   double xmin[I.dim], xmax[I.dim];
@@ -47,21 +47,22 @@ void Integrate(double (*fctn)(double *x, size_t dim, void *jj), double& res, dou
   // Warm-up
   s->stage=0;  s->iterations=5; s->verbose=Params->Vegas()->VegasVerbose();
   gsl_monte_vegas_integrate(&I, xmin, xmax, I.dim, calls/50, r, s, &res, &err);
-  DisplayXsec(res,err,"  --> Warm-up"); 
+  DisplayXsec(res,err,"  --> Warm-up", gsl_monte_vegas_chisq(s));
 
   // Real things: stops if the precision reaches 0.1% or if one oscillates
   double prec=1e9; int counter=1; s->stage=1;
-  while(prec>Params->Vegas()->VegasPrecision() && counter<=Params->Vegas()->VegasMaxIter())
+  while((prec>Params->Vegas()->VegasPrecision() || std::fabs(gsl_monte_vegas_chisq(s)-1.)>0.5) && counter<=Params->Vegas()->VegasMaxIter())
   {
     // Integral
     gsl_monte_vegas_integrate(&I, xmin, xmax, I.dim, calls, r, s, &res, &err);
 
     // Display result
     std::ostringstream ocnt; ocnt << counter; std::string cntstr= ocnt.str();
-    DisplayXsec(res,err,"  --> Refine-"+cntstr);
+    DisplayXsec(res,err,"  --> Refine-"+cntstr,gsl_monte_vegas_chisq(s));
 
     // Preparing next iteration
-    prec=std::abs(err/res); counter++; calls*=5; 
+    prec=std::abs(err/res); counter++; calls*=5; s->iterations*=2;
+    if(s->stage==1) s->stage=3;
   }
 
   // Cleaning the memory and closing the file

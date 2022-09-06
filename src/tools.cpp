@@ -1,7 +1,7 @@
 // ************************************************************************* //
 // Various tools                                                             //
 //                                                                           //
-// By Benjamin Fuks - 14.06.2022                                             //
+// By Benjamin Fuks - 31.08.2022                                             //
 // ************************************************************************* //
 
 
@@ -53,11 +53,12 @@ void DecodeArgs(int argc, char* argv[], bool &debug)
 // ************************************************************************* //
 // Printing a xsection                                                       //
 // ************************************************************************* //
-void DisplayXsec(const double &r, const double &e, const std::string &tag)
+void DisplayXsec(const double &r, const double &e, const std::string &tag, double x2=0)
 {
   // From double to strings
-  std::ostringstream osr; osr << r*0.38937966e9; std::string rstr= osr.str();
-  std::ostringstream ose; ose << e*0.38937966e9; std::string estr= ose.str();
+  std::ostringstream osr; osr << r*0.38937930e9; std::string rstr= osr.str();
+  std::ostringstream ose; ose << e*0.38937930e9; std::string estr= ose.str();
+  std::ostringstream osx; osx << x2;             std::string cstr= osx.str();
 
   // Precision of the result
   double prec=0.;
@@ -66,7 +67,8 @@ void DisplayXsec(const double &r, const double &e, const std::string &tag)
   opr << std::fixed << prec; std::string prstr= opr.str();
 
   // Printing
-  info(tag + " results: " + rstr + " +/- " + estr + " pb  (@ " + prstr + "%)");
+  if(x2!=0) info(tag + " results: " + rstr + " +/- " + estr + " pb  (@ " + prstr + "%; X2=" + cstr+")");
+  else      info(tag + " results: " + rstr + " +/- " + estr + " pb  (@ " + prstr + "%)");
 }
 
 

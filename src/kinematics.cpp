@@ -1,7 +1,7 @@
 // ************************************************************************* //
 // Kinematic computations                                                    //
 //                                                                           //
-// By Benjamin Fuks - 15.07.2022                                             //
+// By Benjamin Fuks - 06.09.2022                                             //
 // ************************************************************************* //
 
 // ************************************************************************* //
@@ -23,7 +23,7 @@ double Kallen(double x, double y, double z)
 
 
 // ************************************************************************* //
-// Kinematics                                                                //
+// Two-body phase space                                                      //
 // ************************************************************************* //
 void Kinematics2to2(double &xa, double &xb, double &t, double &jac, double &s, double *x, ProcessConfig *p)
 {
@@ -49,6 +49,9 @@ void Kinematics2to2(double &xa, double &xb, double &t, double &jac, double &s, d
 }
 
 
+// ************************************************************************* //
+// Three-body phase space in the collinear limit (for P+K integration)       //
+// ************************************************************************* //
 void Kinematics2to2PK(double &xa, double &xb, double &z, double *t, double *jac, double *s, double *x, ProcessConfig *p)
 {
    // Computes xa + integration from 0->1 becomes from tau to 1
@@ -95,6 +98,44 @@ void Kinematics2to2PK(double &xa, double &xb, double &z, double *t, double *jac,
      jac[1] =  sqkal[1]*z*log(p->tauh())*log(p->tauh()/(xa*xb));
      jac[2] = -sqkal[1]*z*log(p->tauh());
    }
+}
+
+
+
+// ************************************************************************* //
+// Three-body phase space                                                    //
+// ************************************************************************* //
+void Kinematics2to3(double &xa, double &xb, double &M2, double &pt2, double &cthp, double &php, double &jac, double &s, double *x, ProcessConfig* p)
+{
+   // Computes xa + integration from 0->1 becomes from tau to 1
+   xa=pow(p->tauh(),1.-x[0]);
+
+   // Computes xb
+   xb=pow(p->tauh()/xa,1.-x[1]);
+
+   // Computes M2 and shat
+   s = xa*xb*p->sh();
+   if(p->M()==-1) M2 = p->M2min() * pow(s/p->M2min(),x[5]);
+   else           M2=p->M2();
+
+   // Computes pt2
+   double pt2max = pow(s-M2, 2.) / (4.*s);
+   pt2 = pt2max*x[2];
+
+   // Computes cos(theta') and phi'
+   cthp = 2.*x[3]-1.;
+//   double thp = M_PI * x[3];
+//   cthp = cos(thp);
+   php = M_PI * x[4];
+
+   // Jacobian divided by (xa xb) cf. PDF (includes xb factor for dsig/dM)
+   //  + factor of 2 for the phi' integral that is only done half
+   if(p->M()==-1) jac = 4.*M_PI * M2 * pt2max * log(p->tauh()) * log(p->tauh()/xa) * log(s/p->M2min());
+//   if(p->M()==-1) jac = 2.*M_PI * M_PI * M2 * pt2max * log(p->tauh()) * log(p->tauh()/xa) * log(s/p->M2min()) * sin(thp);
+   else           jac = 4.*M_PI * pt2max * log(p->tauh()) * log(p->tauh()/xa);
+
+   return;
+
 }
 
 
